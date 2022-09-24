@@ -29,4 +29,45 @@ const getAllRestaurant = async () => {
   }
 };
 
-module.exports = { getAllRestaurant };
+const getOneRestaurantById = async (restaurantId) => {
+  try {
+    let restaurant = await MongoDB.db
+      .collection(mongoConfig.collections.RESTAURANTS)
+      .aggregate([
+        {
+          $match: {
+            id: restaurantId,
+          },
+        },
+        {
+          $lookup: {
+            from: "foods",
+            localField: "id",
+            foreignField: "restaurantId",
+            as: "foods",
+          },
+        },
+      ])
+      .toArray();
+    if (restaurant && restaurant?.length > 0) {
+      return {
+        status: true,
+        message: "Restaurant found successfully",
+        data: restaurant[0],
+      };
+    } else {
+      return {
+        status: false,
+        message: "No restaurant found",
+      };
+    }
+  } catch (error) {
+    return {
+      status: false,
+      message: "Restaurant finding failed",
+      error: `Restaurant finding failed : ${error?.message}`,
+    };
+  }
+};
+
+module.exports = { getAllRestaurant, getOneRestaurantById };
