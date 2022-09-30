@@ -8,6 +8,8 @@ module.exports = {
       USERS: "users",
       RESTAURANTS: "restaurants",
       CARTS: "carts",
+      FOODS: "foods",
+      BOOKMARKS: "bookmarks",
     },
   },
   serverConfig: {
