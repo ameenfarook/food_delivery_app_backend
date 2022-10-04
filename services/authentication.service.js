@@ -120,7 +120,8 @@ const tokenVerification = async (req, res, next) => {
     if (
       req?.originalUrl.includes("/login") ||
       req?.originalUrl.includes("/user-exist") ||
-      req?.originalUrl.includes("/register")
+      req?.originalUrl.includes("/register") ||
+      req?.originalUrl.includes("/refresh-token")
     )
       return next();
     let token = req?.headers["authorization"];
